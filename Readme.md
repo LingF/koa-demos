@@ -6,6 +6,8 @@ node src/xx
 ```
 
 ## 章节顺序
+
+### 《1、2》
 1. iterator
 2. cb-promise
 3. promise-async
@@ -94,16 +96,77 @@ node src/xx
         - 中间件接收 context，next函数，同时运行这个中间件
         - dispatch(i + 1) 就是执行下个中间件
         - 一直执行到下标与数组长度一致，fn = next （undefined），所以Promise.resolve()
-    * 
-19. 
+19. session-cookie-路由   koa-session/index.js
+    * 原理：客户端与服务端当前的会话，并且能知道客户端是否有保存一些状态（登陆状态、业务埋点等）
     
 
+> 《1、2》总结： 
+> 1. 在koa里，一切流程都是中间件
+> 2. 一个http请求进入koa之后，都会流经预先配置好的中间件
+> 3. 在中间件执行策略时会先经koa-compose把中间件组合在一起，一个接一个，数组里面的函数依次执行。通过next中间函数，将控制权（执行权）进行往下传递（koa洋葱模型）
+> 4. 每个中间件都会拿到ctx，通过ctx可以访问request／response对象
+> 5. 三者互相引用，request／response对象是koa中扩展出的对象，并非node原生的。
+> 
+
+### 《3》
+1. koa1 -> koa2
+    * 运行koa1
+    * 运行koa2 logger比较老，所以需要koa-convert转换
+        - var -> let const
+        - 箭头函数
+        - 不再支持 Generator Function，而是async
+    * ----------
+    * 中间件的处理，最外层到内，穿过中间件，拿到业务数据，请求转变为响应
+    * 中间件如何知道来的是请求还是响应：
+        - 并不知道，也不需要知道。请求肯定比响应早执行早被处理
+        - 中间一分为二，前面是处理请求，后面是处理响应，分界线就是yield／await next
+    * ----------
+2. koa1与koa2区别
+    * 依赖不同
+        - koa 依托于 Generator Function／co库／
+        - koa2 依托于 Async Function
+    * 语法
+        - es5／es6
+        - es6／或更新的
+    * 中间件执行的特征、链路相似（但是设计策略和执行的逻辑有区别）
+    * 配套三方库（koa-convert）
+        - 最新的logger是对koa2兼容了（这里只为演示）
+3. express与koa区别
+    * 都提供构造函数来生成一个服务器的实例
+        - 内部生成
+        - 显式 new
+    * app上都有use，环境变量，配置
+        - express更多控制权，配置权
+            + disable/enable/router/render 等等
+            + settings 也提供了：引擎配置/jsonp/严格的路由等等
+    * koa 把请求的request/response/context通过引用的方式挂载context里面
+    * 能力层面，koa没有express提供的丰富
+    * API设计
+        - 三大部分
+            + app/requset/response 互相脱离的
+            + 更能直接使用
+        - koa 都提供了context
+            + 更容易做底层的深度定制
+    * 中间件执行模板
+        - 单向流动
+        - 洋葱模型
+    * 编程体验
+        - callback
+        - Async Function
+    * 工程构件模型、数据流集成方式、插件机制不同
+
 ## 模块
-* `co`
-* `node-fetch`
-* `babel-cli` `babel-preset-env`  
-    - nodemon -w src
-    - --exec babel-node src
-* `nodemon`
-* `babel-plugin-transform-runtime` `babel-runtime` （babel插件运行环境、babel运行环境，-S）
-* `koa`
+1. 《1、2》
+    * `co`
+    * `node-fetch`
+    * `babel-cli` `babel-preset-env`  
+        - nodemon -w src
+        - --exec babel-node src
+    * `nodemon`
+    * `babel-plugin-transform-runtime` `babel-runtime` （babel插件运行环境、babel运行环境，-S）
+    * `koa`
+    * `koa-logger` `koa-session`
+2. 《3》
+    * `koa@1.2.0` `koa-logger@1.3.0`  -S
+    * `koa@2.4.1` `koa-convert` -S
+    * `koa-logger@latest` -S
