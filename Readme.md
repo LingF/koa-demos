@@ -83,7 +83,7 @@ node src/xx
 16. 中间件
     * app.use(xxx)  xxx 就是中间件，一切尽是中间件
     * await next() 交出控制权，进入下一个中间件
-    * 堆栈式的执行，且每个中间件可以做一部分事情，再让别人去做，最后补完自己的事情
+    * 堆栈式的执行，且每个中间件可以做一部分事情，再让别人去做，最后补完自己的事情    
 17. 纯函数
     * 入参 x，返回值 y。既不依赖，也不会改变全局状态。
 18. koa-compose 一个个不想干的中间件串在一起
@@ -155,11 +155,21 @@ node src/xx
         - Async Function
     * 工程构件模型、数据流集成方式、插件机制不同
 
+### 《4》
+1. git checkout master -b xxx 切换到新分支
+2. git add / git commit
+3. git push origin xxx 推送到远程分支
+4. koa-views（模版路径，指定扩展名），通过use挂载在ctx
+5. 首页模块/播放器DPlayer
+
+### 《5》
+1. Puppeteer 抓取目标网站数据
+
 ## 模块
 1. 《1、2》
     * `co`
     * `node-fetch`
-    * `babel-cli` `babel-preset-env`  
+    * `babel-cli` `babel-preset-env`    
         - nodemon -w src
         - --exec babel-node src
     * `nodemon`
@@ -170,3 +180,16 @@ node src/xx
     * `koa@1.2.0` `koa-logger@1.3.0`  -S
     * `koa@2.4.1` `koa-convert` -S
     * `koa-logger@latest` -S
+3. 《4》
+    * `cz-conventional-changelog` 
+    * `ejs` `pug` 模版引擎
+    * `koa-views`
+4. 《5》
+    * `puppeteer`
+
+
+
+
+
+
+
