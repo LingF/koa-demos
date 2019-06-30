@@ -28,7 +28,7 @@ setImmediate(() => console.log('immediate 立即回调'))
 process.nextTick(() => console.log('process.nextTick 的回调'))
 Promise.resolve().then(() => {
   yy.emit('event')
-  process.nextTick(() => console.log('process.nextTick 的回调'))
+  process.nextTick(() => console.log('in promise process.nextTick 的回调'))
   console.log('promise 第一次回调')
 }).then(() => console.log('promise 第二次回调'))
 
